@@ -20,10 +20,20 @@ Deploy your own instance of PrivateFolio to your Cloudflare account for free.
    - Build and deploy the Next.js frontend.
 
 ## 🔄 How to Update
-Since this is a self-hosted (BYOC) application, you are in full control of the code. To get the latest features or bug fixes:
-1. Go to your forked repository on GitHub.
-2. Click **"Sync fork"** (under the green Code button).
-3. Cloudflare Pages will detect the change and automatically redeploy the new version.
+Since Cloudflare creates a **new copy** (not a fork) of this repository, you cannot simply click "Sync Fork". To get updates:
+
+1. **Add Upstream Remote** (First time only):
+   ```bash
+   git remote add upstream https://github.com/tigerlaibao/private-folio.git
+   ```
+
+2. **Pull Updates**:
+   ```bash
+   git fetch upstream
+   git merge upstream/main
+   git push origin main
+   ```
+   Cloudflare Pages will detect the push and automatically redeploy.
 
 ## Features
 - **Zero Knowledge**: Data is encrypted in your browser before being sent.
