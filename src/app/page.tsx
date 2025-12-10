@@ -83,8 +83,8 @@ export default function Home() {
             <div className="flex gap-4">
               <div className="flex-none flex items-center justify-center w-8 h-8 rounded-full bg-black text-white font-bold">2</div>
               <div className="w-full">
-                <h3 className="font-bold text-lg">Deploy to Vercel</h3>
-                <p className="text-sm text-gray-600 mb-3">Connect your forked repository to Vercel.</p>
+                <h3 className="font-bold text-lg">Deploy to Cloudflare</h3>
+                <p className="text-sm text-gray-600 mb-3">Deploy your forked repository to Cloudflare Pages.</p>
 
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center gap-2">
@@ -100,7 +100,7 @@ export default function Home() {
                   </div>
 
                   <a
-                    href={username ? `https://vercel.com/import/git?s=https://github.com/${username}/private-folio` : 'https://vercel.com/new'}
+                    href={username ? `https://deploy.workers.cloudflare.com/?url=https://github.com/${username}/private-folio` : 'https://deploy.workers.cloudflare.com/?url=https://github.com/tigerlaibao/private-folio'}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`inline-block transition ${!username ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-80'}`}
@@ -111,7 +111,7 @@ export default function Home() {
                       }
                     }}
                   >
-                    <img src="https://vercel.com/button" alt="Deploy with Vercel" />
+                    <img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare Pages" />
                   </a>
                   {!username && <p className="text-xs text-orange-500">Please enter your username to generate the deploy link.</p>}
                 </div>
