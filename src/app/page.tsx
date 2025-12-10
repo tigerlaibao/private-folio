@@ -54,8 +54,8 @@ export default function Home() {
     <main className="p-8 font-mono max-w-2xl mx-auto">
       <div className="flex justify-between items-center mb-8 border-b pb-4">
         <h1 className="text-2xl font-bold">PrivateFolio</h1>
-        <a href="https://deploy.workers.cloudflare.com/?url=https://github.com/tigerlaibao/private-folio" target="_blank" rel="noopener noreferrer">
-          <img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare Workers" />
+        <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftigerlaibao%2Fprivate-folio" target="_blank" rel="noopener noreferrer">
+          <img src="https://vercel.com/button" alt="Deploy with Vercel" />
         </a>
       </div>
 

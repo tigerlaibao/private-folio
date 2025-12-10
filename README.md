@@ -7,9 +7,9 @@ A privacy-focused, self-hosted personal finance tracker.
 
 Deploy your own instance of PrivateFolio to your Cloudflare account for free.
 
-[![Deploy to Cloudflare Pages](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/tigerlaibao/private-folio)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftigerlaibao%2Fprivate-folio)
 
-*Note: Please replace `tigerlaibao` in the URL above with your actual GitHub username if you fork this.*
+*Note: Please replace the repository URL in the link above with your own if you fork this.*
 
 ## How it Works
 1. **Fork** this repository.
