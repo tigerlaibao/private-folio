@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 export function Auth({ onLogin }: { onLogin: (token: string, user: any, password?: string) => void }) {
+    const [isLogin, setIsLogin] = useState(false); // Default: Create Account
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -11,42 +12,29 @@ export function Auth({ onLogin }: { onLogin: (token: string, user: any, password
         setError('');
         setLoading(true);
 
+        // Explicit Mode Logic
+        const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+
         try {
-            // 1. Try Register
-            const res = await fetch('/api/auth/register', {
+            const res = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
             });
             const data = await res.json();
 
-            if (res.ok) {
-                // Register Success
-                onLogin(data.token, data.user, password);
-                return;
-            }
-
-            // 2. If User Exists (409), Try Login
-            if (res.status === 409) {
-                console.log("User exists, trying login...");
-                const loginRes = await fetch('/api/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password }),
-                });
-                const loginData = await loginRes.json();
-
-                if (loginRes.ok) {
-                    // Login Success
-                    onLogin(loginData.token, loginData.user, password);
-                } else {
-                    // Login Failed (likely wrong password)
-                    throw new Error('User exists but incorrect password.');
+            if (!res.ok) {
+                // Smart Fallback: If registering and user exists -> Suggest Login
+                if (!isLogin && res.status === 409) {
+                    setError('User already exists. Please sign in.');
+                    setIsLogin(true); // Auto-switch to login
+                    setLoading(false);
+                    return;
                 }
-            } else {
-                throw new Error(data.error || 'Failed to connect');
+                throw new Error(data.error || 'Failed');
             }
 
+            onLogin(data.token, data.user, password);
         } catch (err: any) {
             setError(err.message);
         } finally {
@@ -57,8 +45,10 @@ export function Auth({ onLogin }: { onLogin: (token: string, user: any, password
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <div className="bg-white p-8 rounded-xl shadow-sm border w-full max-w-sm">
-                <h1 className="text-2xl font-bold mb-2">Welcome to PrivateFolio</h1>
-                <p className="text-gray-500 mb-6 text-sm">Create an account or login to continue.</p>
+                <h1 className="text-2xl font-bold mb-2 text-center">{isLogin ? 'Welcome back' : 'Create your account'}</h1>
+                <p className="text-gray-500 mb-6 text-sm text-center">
+                    {isLogin ? 'Enter your details to access your portfolio.' : 'Start your private wealth journey today.'}
+                </p>
 
                 {error && <div className="bg-red-50 text-red-600 p-3 rounded text-sm mb-4">{error}</div>}
 
@@ -84,9 +74,18 @@ export function Auth({ onLogin }: { onLogin: (token: string, user: any, password
                         disabled={loading}
                         className="w-full bg-black text-white font-bold py-3 rounded hover:bg-gray-800 disabled:opacity-50 transition"
                     >
-                        {loading ? 'Processing...' : 'Get Started'}
+                        {loading ? 'Processing...' : (isLogin ? 'Sign In' : 'Create Account')}
                     </button>
                 </form>
+
+                <div className="mt-6 text-center text-sm">
+                    <button
+                        onClick={() => { setIsLogin(!isLogin); setError(''); }}
+                        className="text-gray-500 hover:text-black font-medium underline"
+                    >
+                        {isLogin ? 'Need an account? Create one' : 'Already have an account? Sign in'}
+                    </button>
+                </div>
             </div>
         </div>
     );
