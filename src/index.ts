@@ -6,6 +6,7 @@ globalThis.process = { env: {} }
 
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import { logger } from 'hono/logger'
 import { jwt } from 'hono/jwt'
 import { hashPasswordBcrypt, comparePasswordBcrypt, signToken, JWT_SECRET } from './auth'
 import yahooFinance from 'yahoo-finance2'
@@ -17,7 +18,7 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>()
 
-// app.use('*', logger()) // REMOVED: Causing TypeError: Cannot read properties of undefined (reading 'duration') in Cloudflare Workers
+app.use('*', logger()) // Add Logger Middleware
 app.use('/api/*', cors())
 
 // --- DB Auto-Init Middleware ---
